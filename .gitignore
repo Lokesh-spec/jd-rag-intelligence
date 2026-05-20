@@ -1,0 +1,44 @@
+# Environment
+.venv/
+venv/
+.env
+
+# Data (demo/scraped content — keep local, do not commit)
+data/
+
+# Runtime / generated artifacts
+checkpoint.json
+data/chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+build/
+dist/
+wheels/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# UV
+uv.lock
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
