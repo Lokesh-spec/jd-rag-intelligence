@@ -8,7 +8,6 @@ from src.indexing.index_pipeline import run_index_pipeline
 from src.preprocessing.normalize_pipeline import run_normalize_pipeline
 from src.utils.checkpoint_manager import load_checkpoint
 from src.utils.chroma_cleanup import reset_chroma_db
-
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",

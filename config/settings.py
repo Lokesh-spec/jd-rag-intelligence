@@ -13,3 +13,12 @@ COLLECTION_NAME = "jd_intelligence_baseline_500d"
 
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
+
+# Retrieval defaults (aligned with notebooks/jd-intelligence-system.ipynb)
+DEFAULT_TOP_K = 5
+SIMILARITY_SCORE_THRESHOLD = 0.5
+MMR_LAMBDA_MULT = 0.5
+MMR_FETCH_K_MULTIPLIER = 2
+HYBRID_DENSE_WEIGHT = 0.8
+HYBRID_SPARSE_WEIGHT = 0.2
+LLM_TEMPERATURE = 0

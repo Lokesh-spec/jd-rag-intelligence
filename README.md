@@ -63,9 +63,13 @@ jd-intelligence-system/
 │   │   └── chroma_store.py
 │   ├── indexing/
 │   │   └── index_pipeline.py
+│   ├── retrievers/
+│   │   ├── retriever_factory.py
+│   │   └── types.py
 │   └── utils/
 │       ├── checkpoint_manager.py
 │       └── chroma_cleanup.py
+├── app.py                       # Streamlit UI
 ├── checkpoint.json              # Runtime ledger (gitignored)
 ├── main.py                      # CLI entry point
 └── pyproject.toml
@@ -133,6 +137,16 @@ Examples:
 # Process new raw files without re-embedding existing cleaned files
 .venv/bin/python main.py --normalize-only
 ```
+
+### Streamlit app
+
+After ingestion, launch the interactive UI:
+
+```bash
+.venv/bin/streamlit run app.py
+```
+
+The app supports all retriever types, result cards, analytics logging, query history, and GPT-4o-mini answers grounded on retrieved JD chunks.
 
 ## Checkpoint format
 
