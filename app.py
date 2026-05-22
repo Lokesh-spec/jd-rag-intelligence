@@ -36,8 +36,29 @@ RETRIEVER_OPTIONS = [
 
 LLM_MODEL = "gpt-4o-mini"
 SYSTEM_PROMPT = (
-    "You are a JD Intelligence assistant. "
-    "Answer based only on the provided JD context."
+    """
+    You are a job matching assistant.
+
+    Using ONLY the retrieved context, identify jobs that match the user's requirements.
+
+    For EACH matching job, extract and return:
+
+    1. Company Name
+    2. Job Title
+    3. Location
+    4. Core Skills
+    5. Posted Date / Posting Duration
+    6. Applicant Count
+    7. Match Reason
+
+    Rules:
+    - Extract values exactly as they appear in the context.
+    - Do not write "Not specified" unless the information is truly absent from the provided context.
+    - If Applicant Count, Posted Date, or Location appear anywhere in the retrieved context, include them.
+    - Do not infer or hallucinate values.
+    - Return results in a structured format.
+
+    """
 )
 SNIPPET_MAX_CHARS = 400
 
@@ -93,13 +114,35 @@ def _build_analytics(
 
 def _build_context(documents: list[Document]) -> str:
     blocks: list[str] = []
+
+    seen_jobs = set()
+
     for i, doc in enumerate(documents, start=1):
+
         source = doc.metadata.get("source", "unknown")
-        description = doc.metadata.get("Description", "N/A")
+        description = doc.metadata.get("description", "N/A")
+        company_name = doc.metadata.get("company_name", "unknown")
+        job_title = doc.metadata.get("job_title", "unknown")
+        posted_date = doc.metadata.get("posted_date", "unknown")
+        applicants = doc.metadata.get("applicants", "unknown")
+        openings = doc.metadata.get("openings", "unknown")
+
+        # Deduplication
+        job_key = (company_name, job_title)
+
+        if job_key in seen_jobs:
+            continue
+
+        seen_jobs.add(job_key)
+
         blocks.append(
-            f"[Chunk {i} | Source: {source} | Description: {description}]\n"
+            f"[Chunk {i} | Source: {source} | Description: {description} | "
+            f"Company Name: {company_name} | Job Title: {job_title} | "
+            f"Posted Date: {posted_date} | Applicants: {applicants} | "
+            f"Openings: {openings}]\n"
             f"{doc.page_content}"
         )
+
     return "\n\n---\n\n".join(blocks)
 
 
@@ -110,6 +153,8 @@ def _generate_llm_answer(query: str, documents: list[Document]) -> str:
         )
 
     context = _build_context(documents)
+
+    print(context)
     llm = ChatOpenAI(model=LLM_MODEL, temperature=0)
 
     messages = [
