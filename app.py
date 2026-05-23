@@ -11,11 +11,14 @@ from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
+from config.settings import LLM_MODEL
 
 from src.retrievers.retriever_factory import (
     EmptyIndexError,
     retrieve_matching_jds,
 )
+
+from src.retrievers.rag_fusion import rag_fusion_pipeline
 
 load_dotenv(override=True)
 
@@ -32,9 +35,9 @@ RETRIEVER_OPTIONS = [
     "BM25",
     "Hybrid",
     "Compressed",
+    "Rag Fusion"
 ]
 
-LLM_MODEL = "gpt-4o-mini"
 SYSTEM_PROMPT = (
     """
     You are a job matching assistant.
@@ -293,11 +296,18 @@ def main() -> None:
         documents: list[Document] = []
         try:
             with st.spinner("Retrieving matching job descriptions…"):
-                documents = retrieve_matching_jds(
-                    query=query,
-                    retriever_type=retriever_type,
-                    top_k=int(top_k),
-                )
+                if retriever_type != "Rag Fusion":
+
+                    documents = retrieve_matching_jds(
+                        query=query,
+                        retriever_type=retriever_type,
+                        top_k=int(top_k),
+                    )
+                else:
+                    documents = rag_fusion_pipeline(
+                        query=query,
+                        logger=logger
+                    )
         except EmptyIndexError:
             st.warning(
                 "No documents found in the vector index. "
