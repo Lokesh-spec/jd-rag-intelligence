@@ -196,7 +196,6 @@ Key dependencies: `langchain`, `langchain-community`, `langchain-openai`, `chrom
 
    ```bash
    uv sync
-   # or: python -m venv .venv && source .venv/bin/activate && pip install -e .
    ```
 
 3. **Configure environment variables**
