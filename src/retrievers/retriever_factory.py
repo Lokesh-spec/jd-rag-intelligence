@@ -146,10 +146,10 @@ def build_hybrid_retriever(
     dense_weight: float = HYBRID_DENSE_WEIGHT,
     sparse_weight: float = HYBRID_SPARSE_WEIGHT,
 ) -> EnsembleRetriever:
-    """Combine dense similarity and BM25 retrievers (notebook default: 0.8 / 0.2)."""
+    """Combine dense mmr and BM25 retrievers (notebook default: 0.8 / 0.2)."""
     dense = build_dense_retriever(
         vector_store,
-        search_type="similarity",
+        search_type="mmr",
         top_k=top_k,
     )
     sparse = build_bm25_retriever(documents, top_k=top_k)

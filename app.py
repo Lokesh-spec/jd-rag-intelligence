@@ -157,7 +157,6 @@ def _generate_llm_answer(query: str, documents: list[Document]) -> str:
 
     context = _build_context(documents)
 
-    print(context)
     llm = ChatOpenAI(model=LLM_MODEL, temperature=0)
 
     messages = [
