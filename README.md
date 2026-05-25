@@ -292,7 +292,6 @@ To reprocess everything, delete `checkpoint.json` and optionally run with `--res
 - `.env`, `.venv/` — secrets and environment
 
 ## Demo
-## Demo
 
 ### Hybrid Search Results
 Query - 1
@@ -300,10 +299,14 @@ Query - 1
 LLM Answer - 1
 ![Hybrid Search](assets/LLM-Answer-1.png)
 
+---
+
 Query - 2
 ![Hybrid Search](assets/Query-2.png)
 LLM Answer - 2
 ![Hybrid Search](assets/LLM-Answer-2.png)
+
+---
 
 Query - 3
 ![Hybrid Search](assets/Query-3.png)
